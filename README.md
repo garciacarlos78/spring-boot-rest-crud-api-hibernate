@@ -13,7 +13,7 @@ Implemented following endpoints:
 Implemented following endpoints:
   - POST */api/employees* : creates an employee defined in JSON body
 
-## Commit:
+## Commit: Update employee implemented
 Implemented following endpoints:
   - PUT */api/employees* : updates employee defined in JSON body
 

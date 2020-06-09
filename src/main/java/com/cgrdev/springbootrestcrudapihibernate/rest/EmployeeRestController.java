@@ -39,4 +39,10 @@ public class EmployeeRestController {
     public Employee create(@RequestBody Employee employee) {
         return employeeDAO.create(employee);
     }
+
+    // update existing employee
+    @PutMapping("/employees")
+    public Employee update(@RequestBody Employee employee) {
+        return employeeDAO.update(employee);
+    }
 }
