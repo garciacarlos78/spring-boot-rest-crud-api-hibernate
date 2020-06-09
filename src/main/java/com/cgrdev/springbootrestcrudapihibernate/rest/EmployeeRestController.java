@@ -45,4 +45,11 @@ public class EmployeeRestController {
     public Employee update(@RequestBody Employee employee) {
         return employeeDAO.update(employee);
     }
+
+    // delete employee by id
+    @DeleteMapping("/employees/{employeeId}")
+    public String delete(@PathVariable int employeeId) {
+        employeeDAO.delete(employeeId);
+        return "Employee with id deleted - " + employeeId;
+    }
 }

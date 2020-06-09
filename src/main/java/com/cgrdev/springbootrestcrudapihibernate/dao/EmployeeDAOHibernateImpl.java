@@ -95,6 +95,23 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
         return dbEmployee;
     }
 
+    @Override
+    @Transactional
+    public void delete(int id) {
+
+        // get current session
+        Session session = entityManager.unwrap(Session.class);
+
+        // get employee with given id
+        Employee employee = session.get(Employee.class, id);
+
+        // throw exception if employee does not exist
+        if (employee==null) throw new RuntimeException("Employee with id not found - " + id);
+
+        // delete Employee with given id
+        session.delete(employee);
+    }
+
     private void updateEmployee(Employee dbEmployee, Employee newEmployee) {
         String field = newEmployee.getFirstName();
         if (field!=null) dbEmployee.setFirstName(field);
