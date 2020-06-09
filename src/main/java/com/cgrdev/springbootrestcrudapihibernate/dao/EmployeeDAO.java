@@ -10,7 +10,7 @@ public interface EmployeeDAO {
 
     Employee findById(int id);
 
-    /*Employee create(Employee employee);
+    Employee create(Employee employee);
 
-    void delete(int id);*/
+    // void delete(int id);
 }

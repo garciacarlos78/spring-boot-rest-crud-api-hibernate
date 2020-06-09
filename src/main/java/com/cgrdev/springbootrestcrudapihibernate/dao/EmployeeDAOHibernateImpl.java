@@ -59,6 +59,27 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
         // return result
         return employee;
     }
+
+    @Override
+    @Transactional
+    public Employee create(Employee employee) {
+
+        // get current hibernate session
+        Session session = entityManager.unwrap(Session.class);
+
+        checkId(employee.getId(), session);
+
+        // create received employee
+        session.saveOrUpdate(employee);
+
+        // return just created employee (includes actual id)
+        return employee;
+    }
+
+    private void checkId(int id, Session session) {
+        Employee employee = session.get(Employee.class, id);
+        if (employee != null) throw new RuntimeException("Employee id must be 0 or not be.");
+    }
 }
 
 

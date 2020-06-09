@@ -9,7 +9,7 @@ Created structure and first endpoint, GET */api/employees*, that returns JSON wi
 Implemented following endpoints:
   - GET */api/employees/{employeeId}* : returns employee with given id
 
-## Commit:
+## Commit: Create new employee implemented
 Implemented following endpoints:
   - POST */api/employees* : creates an employee defined in JSON body
 

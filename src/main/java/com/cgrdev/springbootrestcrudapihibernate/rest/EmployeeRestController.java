@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// TODO Exception handling in general
+//  - Correct id (0 < id < MAX_INT)
+
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
@@ -29,5 +32,11 @@ public class EmployeeRestController {
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable int employeeId) {
         return employeeDAO.findById(employeeId);
+    }
+
+    // creates a new employee using the data received in the JSON body
+    @PostMapping("/employees")
+    public Employee create(@RequestBody Employee employee) {
+        return employeeDAO.create(employee);
     }
 }
