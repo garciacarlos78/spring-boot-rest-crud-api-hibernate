@@ -1,7 +1,7 @@
 package com.cgrdev.springbootrestcrudapihibernate.rest;
 
-import com.cgrdev.springbootrestcrudapihibernate.dao.EmployeeDAO;
 import com.cgrdev.springbootrestcrudapihibernate.entity.Employee;
+import com.cgrdev.springbootrestcrudapihibernate.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,42 +14,42 @@ import java.util.List;
 @RequestMapping("/api")
 public class EmployeeRestController {
 
-    private EmployeeDAO employeeDAO;
+    private EmployeeService service;
 
-    // version 1, quick and dirty: inject employee dao
     @Autowired
-    public EmployeeRestController(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeRestController(EmployeeService service) {
+        this.service = service;
     }
 
     // expose "/employees" and return list of employees
     @GetMapping("/employees")
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
+        return service.getAll();
     }
 
     // expose "/employees/{employeeId}" and return employee with given id
     @GetMapping("/employees/{employeeId}")
     public Employee getEmployee(@PathVariable int employeeId) {
-        return employeeDAO.findById(employeeId);
+        return service.getOne(employeeId);
     }
 
     // creates a new employee using the data received in the JSON body
     @PostMapping("/employees")
     public Employee create(@RequestBody Employee employee) {
-        return employeeDAO.create(employee);
+        return service.create(employee);
     }
 
     // update existing employee
     @PutMapping("/employees")
     public Employee update(@RequestBody Employee employee) {
-        return employeeDAO.update(employee);
+        return service.update(employee);
     }
 
     // delete employee by id
     @DeleteMapping("/employees/{employeeId}")
     public String delete(@PathVariable int employeeId) {
-        employeeDAO.delete(employeeId);
-        return "Employee with id deleted - " + employeeId;
+        String message = "Employee with id deleted - " + employeeId;
+        if (!service.delete(employeeId)) message = "Employee with id not found - " + employeeId;
+        return message;
     }
 }

@@ -22,4 +22,12 @@ Implemented endpoint:
   - DELETE */api/employees/{employeeId}* : deletes employee with given id
 
 Added POSTMAN collection to test the endpoint (folder /POSTMAN).
+
+## Commit: Add service layer
+Refactored code, added service layer.  
+DAO will no longer be responsible for checking if an Employee exists: it will only use *saveOrUpdate* session method. The service will be responsible for those checkings and make the updates.   
+
+Some changes:
+  - @Transactional is removed from DAO implementation method and added to service class.
+  
   

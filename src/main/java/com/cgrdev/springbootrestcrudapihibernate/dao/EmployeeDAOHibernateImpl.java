@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -23,7 +22,6 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
     }
 
     @Override
-    @Transactional
     public List<Employee> findAll() {
 
         // get current hibernate session
@@ -41,7 +39,6 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
     }
 
     @Override
-    @Transactional
     public Employee findById(int id) {
 
         // get current hibernate session
@@ -61,70 +58,28 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
     }
 
     @Override
-    @Transactional
-    public Employee create(Employee employee) {
+    public Employee save(Employee employee) {
 
         // get current hibernate session
         Session session = entityManager.unwrap(Session.class);
 
-        checkId(employee.getId(), session);
-
-        // create received employee
+        // save or update received employee
         session.saveOrUpdate(employee);
 
-        // return just created employee (includes actual id)
+        // return created or updated employee
         return employee;
     }
 
     @Override
-    @Transactional
-    public Employee update(Employee newEmployee) {
+    public void delete(Employee employee) {
 
         // get current session
         Session session = entityManager.unwrap(Session.class);
 
-        // check if exists employee with given id
-        Employee dbEmployee = session.find(Employee.class, newEmployee.getId());
-        if (dbEmployee==null)
-            throw new RuntimeException("Employee with id not found - " + newEmployee.getId());
-
-        // update database employee with new employee's data
-        updateEmployee(dbEmployee, newEmployee);
-
-        // return employee
-        return dbEmployee;
-    }
-
-    @Override
-    @Transactional
-    public void delete(int id) {
-
-        // get current session
-        Session session = entityManager.unwrap(Session.class);
-
-        // get employee with given id
-        Employee employee = session.get(Employee.class, id);
-
-        // throw exception if employee does not exist
-        if (employee==null) throw new RuntimeException("Employee with id not found - " + id);
-
-        // delete Employee with given id
+        // delete employee
         session.delete(employee);
     }
 
-    private void updateEmployee(Employee dbEmployee, Employee newEmployee) {
-        String field = newEmployee.getFirstName();
-        if (field!=null) dbEmployee.setFirstName(field);
-        field = newEmployee.getLastName();
-        if (field!=null) dbEmployee.setLastName(field);
-        field = newEmployee.getEmail();
-        if (field!=null) dbEmployee.setEmail(field);
-    }
-
-    private void checkId(int id, Session session) {
-        Employee employee = session.get(Employee.class, id);
-        if (employee != null) throw new RuntimeException("Employee id must be 0 or not be.");
-    }
 }
 
 
