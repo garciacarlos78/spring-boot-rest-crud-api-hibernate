@@ -3,9 +3,7 @@ package com.cgrdev.springbootrestcrudapihibernate.rest;
 import com.cgrdev.springbootrestcrudapihibernate.dao.EmployeeDAO;
 import com.cgrdev.springbootrestcrudapihibernate.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +23,11 @@ public class EmployeeRestController {
     @GetMapping("/employees")
     public List<Employee> findAll() {
         return employeeDAO.findAll();
+    }
+
+    // expose "/employees/{employeeId}" and return employee with given id
+    @GetMapping("/employees/{employeeId}")
+    public Employee getEmployee(@PathVariable int employeeId) {
+        return employeeDAO.findById(employeeId);
     }
 }

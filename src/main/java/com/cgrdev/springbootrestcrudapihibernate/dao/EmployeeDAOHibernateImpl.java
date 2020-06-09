@@ -39,6 +39,26 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
         // return results
         return employees;
     }
+
+    @Override
+    @Transactional
+    public Employee findById(int id) {
+
+        // get current hibernate session
+        Session session = entityManager.unwrap(Session.class);
+
+        // create query
+        Query<Employee> query =
+                session.createQuery("from Employee where id=:employeeId", Employee.class);
+        query.setParameter("employeeId", id);
+
+        // execute query and get resulting employee
+        // TODO Exception handling (employee not found, invalid id...)
+        Employee employee = query.getSingleResult();
+
+        // return result
+        return employee;
+    }
 }
 
 
